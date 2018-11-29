@@ -50,27 +50,27 @@ class Heap:
         value = self.heap_array[node_index]
 
         while child_index < len(self.heap_array):
-            # Find the max among the node and all the node's children
-            max_value = value
-            max_index = -1
+            # Find the min among the node and all the node's children
+            min_value = value
+            min_index = -1
             i = 0
             while i < 2 and i + child_index < len(self.heap_array):
-                if self.heap_array[i + child_index] < max_value:
-                    max_value = self.heap_array[i + child_index]
-                    max_index = i + child_index
+                if self.heap_array[i + child_index] < min_value:
+                    min_value = self.heap_array[i + child_index]
+                    min_index = i + child_index
                 i = i + 1
 
             # check for a violation of the min heap property
-            if max_value == value:
+            if min_value == value:
                 return
             else:
-                # swap heap_array[node_index] and heap_array[max_index]
+                # swap heap_array[node_index] and heap_array[min_index]
                 temp = self.heap_array[node_index]
-                self.heap_array[node_index] = self.heap_array[max_index]
-                self.heap_array[max_index] = temp
+                self.heap_array[node_index] = self.heap_array[min_index]
+                self.heap_array[min_index] = temp
                 
-                # continue loop from the max index node
-                node_index = max_index
+                # continue loop from the min index node
+                node_index = min_index
                 child_index = 2 * node_index + 1
                 
     def extract_min(self):
@@ -102,7 +102,7 @@ def heap_sort(numbers):
         i = i - 1
                 
     i = len(numbers) - 1
-    #the second loop removes the maximum value, stores the value at the end,
+    #the second loop removes the minimum value, stores the value at the end,
     #and decrements the index until is zero
     while i > 0:
         # Swap numbers[0] and numbers[i]
@@ -118,30 +118,31 @@ def min_heap_percolate_down(node_index, heap_list, list_size):
         value = heap_list[node_index]
 
         while child_index < list_size:
-            # Find the max among the node and all the node's children
-            max_value = value
-            max_index = -1
+            # Find the min among the node and all the node's children
+            min_value = value
+            min_index = -1
             i = 0
             while i < 2 and i + child_index < list_size:
-                if heap_list[i + child_index] > max_value:
-                    max_value = heap_list[i + child_index]
-                    max_index = i + child_index
+                if heap_list[i + child_index] > min_value:
+                    min_value = heap_list[i + child_index]
+                    min_index = i + child_index
                 i = i + 1
                                         
-            if max_value == value:
+            if min_value == value:
                 return
 
-            # Swap heap_list[node_index] and heap_list[max_index]
+            # Swap heap_list[node_index] and heap_list[min_index]
             temp = heap_list[node_index]
-            heap_list[node_index] = heap_list[max_index]
-            heap_list[max_index] = temp
+            heap_list[node_index] = heap_list[min_index]
+            heap_list[min_index] = temp
             
-            node_index = max_index
+            node_index = min_index
             child_index = 2 * node_index + 1
             
 #Creates a file of 20 random numbers separated by a comma
 def createFile():
     newFile=open('listofnumbers.txt','w+')
+    #Change the range and number of values
     numbers = random.sample(range(10000), 20)
     for item in numbers:
         newFile.write(str(item)+", ")
@@ -165,8 +166,6 @@ def createHeap(file):
     heap_sort(h.heap_array)
     print('Sorted: ', h.heap_array)
         
-
-
 def main():
     createFile()
     newFile=open('listofnumbers.txt')
